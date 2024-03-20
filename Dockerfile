@@ -9,6 +9,8 @@ EXPOSE 8080
 
 RUN mkdir /app
 
+COPY .adaptable /.adaptable
+
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/oleo.jar
 
 ENTRYPOINT ["java","-jar","/app/oleo.jar"]
