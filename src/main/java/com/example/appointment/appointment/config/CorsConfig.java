@@ -19,6 +19,14 @@ public class CorsConfig {
                         .addMapping("/api/contact/")
                         .allowedMethods(CorsConfiguration.ALL)
                         .allowedHeaders(CorsConfiguration.ALL)
+                        .allowedOrigins("*")
+                        .allowedOriginPatterns(CorsConfiguration.ALL);
+
+                registry
+                        .addMapping("/api/appointment/")
+                        .allowedMethods(CorsConfiguration.ALL)
+                        .allowedHeaders(CorsConfiguration.ALL)
+                        .allowedOrigins("*")
                         .allowedOriginPatterns(CorsConfiguration.ALL);
             }
         };
