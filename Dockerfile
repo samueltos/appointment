@@ -1,8 +1,3 @@
-FROM gradle:8.6.0-jdk17-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
-
 FROM openjdk:17-alpine
 
 EXPOSE 8080
@@ -11,7 +6,7 @@ COPY .adaptable /.adaptable
 
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/oleo.jar
+COPY --from=build build/libs/*.jar /app/oleo.jar
 
 ENTRYPOINT ["java","-jar","/app/oleo.jar"]
 
