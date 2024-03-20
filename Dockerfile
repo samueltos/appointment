@@ -1,14 +1,15 @@
-FROM openjdk:17-alpine
+FROM ubuntu:latest AS build
+
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
+
+RUN ./gradlew bootJar --no-daemon
+
+FROM openjdk:17-jdk-slim
 
 EXPOSE 8080
 
-COPY .adaptable /.adaptable
+COPY --from=build /build/libs/appointment-0.0.1-SNAPSHOT.jar app.jar
 
-#RUN mkdir /app
-
-COPY ./build/libs/*.jar oleo.jar
-
-ENTRYPOINT ["java","-jar","oleo.jar"]
-
-
-#ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
